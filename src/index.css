@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply bg-primary text-textPrimary;
+    cursor: none;
+  }
+
+  /* Custom hover effects for interactive elements */
+  a, button {
+    @apply relative overflow-hidden;
+  }
+
+  a::after, button::after {
+    content: '';
+    @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-300;
+    mix-blend-mode: overlay;
+  }
+
+  a:hover::after, button:hover::after {
+    @apply opacity-20;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      cursor: auto;
+    }
+    
+    /* Hide custom cursor on mobile */
+    .custom-cursor {
+      display: none !important;
+    }
+    
+    /* Improve touch targets on mobile */
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Fix mobile scrolling issues */
+    html, body {
+      overflow-x: hidden;
+      position: relative;
+      width: 100%;
+    }
+    
+    /* Fix for touch events on mobile */
+    .perspective-1000 {
+      will-change: transform;
+    }
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply cursor-none hover:text-secondary duration-200;
+  }
+  
+  .section-title {
+    @apply text-3xl sm:text-4xl font-bold text-textPrimary mb-8;
+  }
+  
+  .btn {
+    @apply px-6 py-3 rounded-lg font-medium
+    hover:transform hover:scale-105 duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-secondary text-primary;
+  }
+  
+  .btn-outline {
+    @apply border border-secondary text-secondary
+    hover:bg-secondary/10;
+  }
+  
+  /* Responsive component adjustments */
+  @media (max-width: 640px) {
+    .section-title {
+      @apply text-2xl;
+    }
+    
+    .btn {
+      @apply px-4 py-2;
+    }
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+
+  /* Geometric shape clip paths */
+  .clip-path-triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .clip-path-pentagon {
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  }
+
+  .clip-path-hexagon {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  }
+  
+  /* Mobile-optimized animations */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
