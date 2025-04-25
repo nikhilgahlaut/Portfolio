@@ -103,7 +103,7 @@ const CustomCursor = ({ darkMode }) => {
     ]
   }, [])
 
-  const springConfig = { damping: 25, stiffness: 400 }
+  const springConfig = { damping: 25, stiffness: 200 }
   const followerX = useSpring(mouseX, springConfig)
   const followerY = useSpring(mouseY, springConfig)
 
@@ -196,19 +196,13 @@ const CustomCursor = ({ darkMode }) => {
   }
 
   useEffect(() => {
+    let frame
     const moveCursor = (e) => {
-      mouseX.set(e.clientX)
-      mouseY.set(e.clientY)
-      
-      // Update particle positions
-      if (darkMode && particles.length > 0) {
-        setParticles(prev => prev.map(p => ({
-          ...p,
-          x: e.clientX,
-          y: e.clientY,
-          color: torchColor
-        })))
-      }
+      if (frame) cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        mouseX.set(e.clientX)
+        mouseY.set(e.clientY)
+      })
     }
 
     const handleMouseDown = () => {
@@ -261,7 +255,7 @@ const CustomCursor = ({ darkMode }) => {
       })
     }
 
-    window.addEventListener('mousemove', moveCursor)
+    window.addEventListener('mousemove', moveCursor, { passive: true })
     window.addEventListener('mousedown', handleMouseDown)
     window.addEventListener('mouseup', handleMouseUp)
     addMagneticEffect()
@@ -270,8 +264,9 @@ const CustomCursor = ({ darkMode }) => {
       window.removeEventListener('mousemove', moveCursor)
       window.removeEventListener('mousedown', handleMouseDown)
       window.removeEventListener('mouseup', handleMouseUp)
+      if (frame) cancelAnimationFrame(frame)
     }
-  }, [mouseX, mouseY, isClicked, darkMode, torchSize, innerGlowOpacity, particles, torchColor])
+  }, [])
 
   const cursorVariants = {
     default: {

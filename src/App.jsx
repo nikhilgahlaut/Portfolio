@@ -10,7 +10,7 @@ import MobileNav from './components/MobileNav'
 import Resume from './components/Resume'
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
 
   // Apply dark mode class to html element
@@ -58,14 +58,6 @@ function App() {
       </AnimatePresence>
       
       {!isMobile && <CustomCursor darkMode={darkMode} />}
-      
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="fixed top-5 right-5 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors z-50"
-        aria-label="Toggle theme"
-      >
-        {darkMode ? '🌞' : '🌙'}
-      </button>
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 relative z-40">
         {/* Hero Section */}
